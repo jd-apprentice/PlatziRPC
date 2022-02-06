@@ -19,10 +19,9 @@ const baseURL = "https://platzi.com/";
 const updateRPC = async (updatedTitle, curso) => {
   try {
     client.updatePresence({
-      details: curso,
-      state: updatedTitle,
+      details: curso ? curso : "En la pagina de inicio",
+      state: updatedTitle ? updatedTitle : "Platzi",
       largeImageKey: "icon",
-      instance: false,
       startTimestamp: Date.now(),
     });
   } catch (error) {
@@ -30,6 +29,16 @@ const updateRPC = async (updatedTitle, curso) => {
   }
   return await updatedTitle, curso;
 };
+
+// Starter RPC
+const startRPC = () => {
+  client.updatePresence({
+    details: "En la pagina de inicio",
+    state: "Platzi",
+    largeImageKey: "icon",
+    startTimestamp: Date.now(),
+  });
+}
 
 // Update Title and RPC
 const updateTitleAndRpc = async (event, title) => {
@@ -46,7 +55,6 @@ const updateTitleAndRpc = async (event, title) => {
     ) {
       titulo = nombre;
     }
-    updateRPC(titulo); // Update title at the beginning
     // Start Scraping
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
@@ -61,7 +69,8 @@ const updateTitleAndRpc = async (event, title) => {
           .textContent
     );
     course = textContent; // Get the course name
-    updateRPC(titulo, course); // Update title and course
+    browser.close(); // Close the browser
+    await updateRPC(titulo, course); // Update title and course
   } catch (error) {
     throw new Error(error);
   }
@@ -79,10 +88,11 @@ const createWindow = () => {
     width: 800,
     height: 600,
     title: "Loading...",
-    icon: "icon.png",
+    icon: "assets/icon.png",
     webPreferences: { nodeIntegration: false },
   });
   mainWindow.loadURL(baseURL); // Load the url
+  mainWindow.webContents.on("did-navigate", () => titulo === "En la pagina de inicio" ? null : startRPC()); // Start the RPC
   mainWindow.webContents.on("did-navigate", (event) => updateURL(event)); // Update the current URL
   mainWindow.on("page-title-updated", updateTitleAndRpc);
   mainWindow.setMenu(null);
