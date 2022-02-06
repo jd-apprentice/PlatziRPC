@@ -1,7 +1,7 @@
 # Platzi - Discord Rich Presence
 
 ### RPC
-<img src="https://cdn.discordapp.com/attachments/875262629516546089/939622928444706987/unknown.png">
+<img src="https://cdn.discordapp.com/attachments/875262629516546089/939770153644744724/unknown.png">
 
 ### Electron
 <img src="https://cdn.discordapp.com/attachments/875262629516546089/939622181896339546/unknown.png">
