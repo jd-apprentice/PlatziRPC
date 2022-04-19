@@ -1,15 +1,16 @@
 {
-  "name": "my-electron-app",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "platzi-rpc",
+  "version": "1.0.1",
+  "main": "build/index.js",
   "scripts": {
+    "build": "tsc",
     "start": "electron ."
   },
-  "author": "",
-  "license": "ISC",
+  "author": "jd_apprentice",
+  "license": "MIT",
   "devDependencies": {
-    "electron": "^17.0.0"
+    "electron": "^17.0.0",
+    "typescript": "^4.6.3"
   },
   "dependencies": {
     "axios": "^0.25.0",
